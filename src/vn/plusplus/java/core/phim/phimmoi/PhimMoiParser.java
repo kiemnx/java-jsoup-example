@@ -7,7 +7,11 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import vn.plusplus.java.core.phim.FilmParser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PhimMoiParser extends FilmParser<PhimMoiModel> {
+
     @Override
     public PhimMoiModel parserDetail(String url) {
         Document html = getHtmlContent(url);
@@ -62,18 +66,18 @@ public class PhimMoiParser extends FilmParser<PhimMoiModel> {
     }
 
     @Override
-    public String [] parserListLink(String url) {
+    public List<String> parserListLink(String url) {
 
         //Parser link chua danh sach cac phim de lay duoc link chi tiet moi phim
         Document html = getHtmlContent(url);
         Elements elements = html.select("li.movie-item");
 
-        String[] linkArray = new String[elements.size()];
+        List<String> linkArray = new ArrayList<>();
 
         for(int i=0; i < elements.size(); i ++){
             Element element = elements.get(i);
             String linkFilm = element.selectFirst("a").attr("href");
-            linkArray[i] = "http://www.phimmoi.net/" + linkFilm;
+            linkArray.add("http://www.phimmoi.net/" + linkFilm);
         }
         return linkArray;
     }
